@@ -4,6 +4,14 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+fastapi = {extras = ["standard"], version = "*"}
+sqlmodel = "*"
+alembic = "*"
+asyncpg = "*"
+argon2-cffi = "*"
+psycopg = {extras = ["binary", "pool"], version = "*"}
+pydantic-settings = "*"
+greenlet = "*"
 
 [dev-packages]
 
