@@ -1,0 +1,20 @@
+Services:
+  postgres:
+    build:
+      context: .
+      dockerfile: ./backend/docker/local/postgres/Dockerfile
+    ports:
+      - "5432:5432"
+    volumes:
+      - nextgen_local_db:/var/lib/postgresql/data/
+    env_file:
+      - ./.envs/.env.local
+    networks:
+      - nextgen_local_network
+
+networks:
+  nextgen_local_network:
+    external: true
+
+volumes:
+  nextgen_local_db:
