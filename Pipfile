@@ -12,6 +12,7 @@ argon2-cffi = "*"
 psycopg = {extras = ["binary", "pool"], version = "*"}
 pydantic-settings = "*"
 greenlet = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
