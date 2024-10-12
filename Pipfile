@@ -13,6 +13,7 @@ psycopg = {extras = ["binary", "pool"], version = "*"}
 pydantic-settings = "*"
 greenlet = "*"
 python-dotenv = "*"
+loguru = "*"
 
 [dev-packages]
 
