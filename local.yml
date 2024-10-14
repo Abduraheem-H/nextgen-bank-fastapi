@@ -1,8 +1,8 @@
-Services:
+services:
   postgres:
     build:
       context: .
-      dockerfile: ./backend/docker/local/postgres/Dockerfile
+      dockerfile: ./backend/app/docker/local/postgres/Dockerfile
     ports:
       - "5432:5432"
     volumes:
