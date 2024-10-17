@@ -23,6 +23,7 @@ class Settings(BaseSettings):
     PROJECT_DESCRIPTION: str
     SITE_NAME: str
     DEBUG: bool = True
-
+    database_url: str
+    database_echo: bool = False
 
 settings = Settings()

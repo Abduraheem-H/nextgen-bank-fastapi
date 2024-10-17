@@ -1,15 +1,15 @@
 from typing import AsyncGenerator
-from app.core.config import settings
+
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.ext.asyncio.session import AsyncSession
-from app.core.logging import get_logger
 
+from backend.app.core.config import settings
+from backend.app.core.logging import get_logger
 
 logger = get_logger()
 
 engine = create_async_engine(
     settings.database_url,
-    echo=settings.database_echo,
     future=True,
 )
 AsyncSessionLocal = async_sessionmaker(

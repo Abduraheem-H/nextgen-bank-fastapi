@@ -1,4 +1,56 @@
 services:
+  traefik:
+    image: "docker.io/traefik:v3.2"
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./backend/app/docker/local/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+    networks:
+      - nextgen_local_network
+    command:
+      - --providers.docker
+  api: &api
+    build:
+      context: .
+      dockerfile: ./backend/app/docker/local/fastapi/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/src
+      - ./backend/app/logs:/src/backend/app/logs
+    env_file:
+      - ./.envs/.env.local
+    depends_on:
+      - postgres
+      - mailpit
+    networks:
+      - nextgen_local_network
+    command: ["./backend/app/docker/local/fastapi/start.sh"]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`api.localhost`)"
+      - "traefik.http.routers.api.entrypoints=web"
+      - "traefik.http.routers.api.service=api-service"
+      - "traefik.http.services.api-service.loadbalancer.server.port=8000"
+  mailpit:
+    image: "docker.io/axllent/mailpit:v1.20.3"
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    volumes:
+      - nextgen_mailpit_data:/data
+    environment:
+      MP_MAX_MESSAGE: 5000
+      MP_DATA_FILE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    networks:
+      - nextgen_local_network
+    
   postgres:
     build:
       context: .
@@ -18,3 +70,4 @@ networks:
 
 volumes:
   nextgen_local_db:
+  nextgen_mailpit_data:
