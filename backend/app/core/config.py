@@ -25,5 +25,19 @@ class Settings(BaseSettings):
     DEBUG: bool = True
     database_url: str
     database_echo: bool = False
+    MAIL_FROM: str
+    MAIL_FROM_NAME: str
+    SMTP_HOST: str = "mailpit"
+    SMTP_PORT: int = 1025
+    MAILPIT_UI_PORT: int = 8025
+
+    REDIS_HOST: str = "redis"
+    REDIS_PORT: int = 6379
+    REDIS_DB: int = 0
+
+    RABITMQ_HOST: str = "rabbitmq"
+    RABITMQ_PORT: int = 5672
+    RABITMQ_USER: str = "guest"
+    RABITMQ_PASSWORD: str = "guest"
 
 settings = Settings()
