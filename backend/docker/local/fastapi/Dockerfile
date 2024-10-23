@@ -56,9 +56,16 @@ RUN pip install --upgrade pip \
 
 COPY --chown=${APP_USER}:${APP_GROUP} ./backend/app/docker/local/fastapi/entrypoint.sh /entrypoint.sh
 COPY --chown=${APP_USER}:${APP_GROUP} ./backend/app/docker/local/fastapi/start.sh /start.sh
+COPY --chown=${APP_USER}:${APP_GROUP} ./backend/app/docker/local/fastapi/celery/worker/start.sh /celery-worker-start.sh
+COPY --chown=${APP_USER}:${APP_GROUP} ./backend/app/docker/local/fastapi/celery/beat/start.sh /celery-beat-start.sh
+COPY --chown=${APP_USER}:${APP_GROUP} ./backend/app/docker/local/fastapi/celery/flower/start.sh /celery-flower-start.sh
 
-RUN sed -i 's/\r$//g' /entrypoint.sh /start.sh \
-	&& chmod +x /entrypoint.sh /start.sh
+
+
+
+
+RUN sed -i 's/\r$//g' /entrypoint.sh /start.sh /celery-worker-start.sh /celery-beat-start.sh /celery-flower-start.sh \
+	&& chmod +x /entrypoint.sh /start.sh /celery-worker-start.sh /celery-beat-start.sh /celery-flower-start.sh
 COPY --chown=${APP_USER}:${APP_GROUP} . ${APP_HOME}
 
 USER ${APP_USER}
